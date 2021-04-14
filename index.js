@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const PORT = 1000
+const PORT = 3000
 require('./db/connection')
 
 app.get('/contact', function (req, res) {
