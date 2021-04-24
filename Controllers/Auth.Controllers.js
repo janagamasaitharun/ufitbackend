@@ -59,7 +59,7 @@ exports.login= async (req, res) =>{
           status:login.loginstatus,
           email:login.email
         },JwtSecret)
-        res.status(200).json({ message:"sucessfully",token:payload})  
+        res.status(200).json({ message:"sucessfully",token:payload,status:login.loginstatus})  
     
 }
 exports.logout = async (req,res) =>{
