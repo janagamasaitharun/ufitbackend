@@ -2,10 +2,12 @@ const express = require("express");
 const app = express();
 const PORT = 5000;
 const cors = require('cors')
+var morgan = require('morgan')
 const connectDB= require('./db/connection')
 connectDB();
 require('dotenv').config({ path: './Config/config.env' })
 app.use(express.json());
+app.use(morgan('dev'))
 app.use(express.urlencoded({ extended: false }));
 var corsOptions = {
   "origin": "*",
