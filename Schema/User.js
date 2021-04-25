@@ -24,6 +24,10 @@ const userScheama = new mongoose.Schema(
         type:String,
         required: true
     },
+    token: {
+       type:String,
+       default:null
+    },
     loginstatus:{
       type:Boolean,
       required: true,

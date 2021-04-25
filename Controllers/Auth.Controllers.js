@@ -48,18 +48,17 @@ exports.login= async (req, res) =>{
     }); 
     if(login.loginstatus === true){
       return res.status(401).json({message:"User already logged in"})
-    } 
-    const updated={loginstatus:true}
+    }
+    const payload = await jwt.sign({
+        id:login._id,
+        status:login.loginstatus
+      },JwtSecret)
+    const updated={loginstatus:true,token: payload}
         await User.updateOne(login,updated,{
             returnNewDocument: true,
             upsert:true
           })
-        const payload = await jwt.sign({
-          id:login._id,
-          status:login.loginstatus,
-          email:login.email
-        },JwtSecret)
-        res.status(200).json({ message:"sucessfully",token:payload,status:login.loginstatus})  
+        res.status(200).json({ message:"sucessfully",token:payload,status:true})  
     
 }
 exports.logout = async (req,res) =>{
@@ -67,14 +66,22 @@ exports.logout = async (req,res) =>{
     var decoded = jwt.decode(token);
     var email=decoded.email
     const filtered =await User.findOne({email})
-    const updated={loginstatus:false}
+    const updated={loginstatus:false,token:null}
         try {
-            await User.updateOne(filtered,updated,{
+           await User.updateOne(filtered,updated,{
                 returnNewDocument: true,
                 upsert:true
               })
-              res.status(200).json({ message:"sucefully logout"})
+              res.status(200).json({ message:"sucefully logout",token:"null"})
         }catch(e){
             console.log(e)
         }
+}
+exports.send=async (req,res) => {
+    const token = req.header("auth-token");
+    var decoded = jwt.decode(token);
+    var id=decoded._id;
+    const user=User.findById({id})
+    console.log(user)
+
 }

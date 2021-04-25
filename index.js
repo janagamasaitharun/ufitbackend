@@ -19,6 +19,7 @@ var corsOptions = {
 const RegisterRoute=require("./Routes/Authentication")
 const LoginRoute=require("./Routes/Authentication")
 const logout =require('./Routes/Authentication')
+const sendotp =require('./Routes/Authentication')
 
 
 //PrivateController schema
@@ -33,6 +34,7 @@ app.use("/api",RegisterRoute)
 app.use("/api",LoginRoute)
 app.use("/api",verifyToken,logout)
 app.use("/api",verifyToken,GetUser)
+app.use("/api",verifyToken,sendotp)
 app.get('/', function (req, res) {
     res.send('<html><body><h1>Hello World</h1></body></html>');
 });
